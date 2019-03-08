@@ -1,7 +1,13 @@
 {
-    "description": "",
+    "description": "Nextcloud asset source for Neos CMS",
     "type": "neos-package",
     "name": "dl/assetsource-nextcloud",
+    "license": "MIT",
+    "keywords": [
+        "neos",
+        "assetsource",
+        "nextcloud"
+    ],
     "require": {
         "neos/neos": ">=4.0",
         "sabre/dav": "^3.2",
