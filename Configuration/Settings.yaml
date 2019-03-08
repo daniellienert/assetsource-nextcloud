@@ -1,0 +1,22 @@
+Neos:
+  Media:
+    assetSources:
+      nextcloud:
+        assetSource: 'DL\AssetSource\NextCloud\AssetSource\NextCloudAssetSource'
+        assetSourceOptions:
+          label: Nextcloud
+
+          # How many files are requested at maximum
+          assetResultLimit: 200
+          basePath: '/'
+
+          server:
+            baseUri: 'https://owncloud.lienert.cc'
+            userName: ''
+            password: ''
+
+  Flow:
+    mvc:
+      routes:
+        DL.AssetSource.NextCloud:
+          position: 'before Neos.Neos'

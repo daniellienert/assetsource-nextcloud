@@ -1,0 +1,12 @@
+privilegeTargets:
+  'Neos\Flow\Security\Authorization\Privilege\Method\MethodPrivilege':
+
+    'DL.AssetSource.NextCloud:Thumbnails':
+      matcher: 'method(DL\AssetSource\NextCloud\Controller\ThumbnailController->thumbnailAction())'
+
+roles:
+  'Neos.Flow:Everybody':
+    privileges:
+      -
+        privilegeTarget: 'DL.AssetSource.NextCloud:Thumbnails'
+        permission: GRANT

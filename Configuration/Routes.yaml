@@ -1,0 +1,11 @@
+##
+# Thumbnail
+
+-
+  name:  'Thumbnail'
+  uriPattern: 'assetsource/nextcloud/{assetSourceIdentifier}/{fileId}/{width}/{height}'
+  defaults:
+    '@package':    'DL.AssetSource.NextCloud'
+    '@controller': 'Thumbnail'
+    '@action':     'thumbnail'
+  httpMethods: ['GET']

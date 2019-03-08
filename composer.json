@@ -1,0 +1,20 @@
+{
+    "description": "",
+    "type": "neos-package",
+    "name": "dl/assetsource-nextcloud",
+    "require": {
+        "neos/neos": ">=4.0",
+        "sabre/dav": "^3.2",
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "DL\\AssetSource\\NextCloud\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "DL.AssetSource.NextCloud"
+        }
+    }
+}
