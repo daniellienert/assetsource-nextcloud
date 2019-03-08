@@ -33,11 +33,10 @@ class Gallery
 
     public function __construct(array $assetSourceSettings)
     {
-        // TODO: Add header "OCS-APIRequest: true"
-
         $this->assetSourceSettings = $assetSourceSettings;
         $this->client = new Client([
-            'auth' => [$assetSourceSettings['server']['userName'], $assetSourceSettings['server']['password']]
+            'auth' => [$assetSourceSettings['server']['userName'], $assetSourceSettings['server']['password']],
+            'headers' => ['OCS-APIRequest: true']
         ]);
     }
 
@@ -56,7 +55,7 @@ class Gallery
 
         $time = microtime(true);
         $data = $this->client->get($url)->getBody()->getContents();
-        $this->logger->debug('Getting Thumbnail ' . $fileId . ' lasts ' . (string)(microtime(true) - $time));
+        $this->logger->debug('Getting Preview ' . $fileId . ' lasts ' . (string)(microtime(true) - $time));
         return $data;
     }
 }

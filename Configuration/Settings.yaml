@@ -15,6 +15,21 @@ Neos:
             userName: ''
             password: ''
 
+          previewableMimeTypes:
+            - 'image/png'
+            - 'image/jpeg'
+            - 'image/gif'
+            - 'image/x-xbitmap'
+            - 'image/bmp'
+            - 'image/tiff'
+            - 'image/x-dcraw'
+            - 'image/heic'
+            - 'image/heif'
+            - 'application/x-photoshop'
+            - 'application/illustrator'
+            - 'application/postscript'
+
+
   Flow:
     mvc:
       routes:

@@ -75,7 +75,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getFilename(): string
     {
-        return pathinfo(urldecode($this->nextCloudAsset->getPath()), PATHINFO_BASENAME);
+        return $this->nextCloudAsset->getFileName();
     }
 
     /**
@@ -124,7 +124,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getThumbnailUri(): ?UriInterface
     {
-        return $this->assetSource->getThumbnailUrl($this->nextCloudAsset->getFileId(), 250, 250);
+        return $this->assetSource->getThumbnailUrl($this->nextCloudAsset, 250, 250);
     }
 
     /**

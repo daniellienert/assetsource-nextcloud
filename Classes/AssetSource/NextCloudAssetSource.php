@@ -8,6 +8,7 @@ namespace DL\AssetSource\NextCloud\AssetSource;
  *  All rights reserved.
  */
 
+use DL\AssetSource\NextCloud\NextCloudApi\WebDav\Dto\NextCloudAsset;
 use Neos\Flow\Annotations as Flow;
 use DL\AssetSource\NextCloud\Exception\NextCloudAssetSourceException;
 use DL\AssetSource\NextCloud\NextCloudApi\NextCloudClient;
@@ -17,8 +18,10 @@ use Neos\Flow\Http\Uri;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
 use Neos\Flow\Mvc\Routing\UriBuilder;
+use Neos\Flow\ResourceManagement\ResourceManager;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyRepositoryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceInterface;
+use Neos\Media\Domain\Service\FileTypeIconService;
 
 final class NextCloudAssetSource implements AssetSourceInterface
 {
@@ -52,6 +55,12 @@ final class NextCloudAssetSource implements AssetSourceInterface
      * @var NextCloudClient
      */
     private $nextCloudClient;
+
+    /**
+     * @Flow\Inject
+     * @var ResourceManager
+     */
+    protected $resourceManager;
 
     /**
      * @Flow\Inject
@@ -157,17 +166,22 @@ final class NextCloudAssetSource implements AssetSourceInterface
     }
 
     /**
-     * @param int $fileId
+     * @param NextCloudAsset $nextCloudAsset
      * @param int $width
      * @param int $height
      * @return Uri
      * @throws MissingActionNameException
      */
-    public function getThumbnailUrl(int $fileId, int $width, int $height): Uri
+    public function getThumbnailUrl(NextCloudAsset $nextCloudAsset, int $width, int $height): Uri
     {
+        if (!$this->nextcloudSupportsThumbnailGeneration($nextCloudAsset)) {
+            $icon = FileTypeIconService::getIcon($nextCloudAsset->getFileName());
+            return new Uri($this->resourceManager->getPublicPackageResourceUriByPath($icon['src']));
+        }
+
         $arguments = [
             'assetSourceIdentifier' => $this->getIdentifier(),
-            'fileId' => $fileId,
+            'fileId' => $nextCloudAsset->getFileId(),
             'width' => $width,
             'height' => $height
         ];
@@ -177,6 +191,16 @@ final class NextCloudAssetSource implements AssetSourceInterface
             ->setCreateAbsoluteUri(true)
             ->uriFor('thumbnail', $arguments, 'Thumbnail', 'DL.AssetSource.NextCloud')
         );
+    }
+
+    /**
+     * @param NextCloudAsset $nextCloudAsset
+     * @return bool
+     */
+    private function nextcloudSupportsThumbnailGeneration(NextCloudAsset $nextCloudAsset): bool
+    {
+        $supportedTypes = $this->assetSourceOptions['previewableMimeTypes'] ?? [];
+        return in_array($nextCloudAsset->getContentType(), $supportedTypes);
     }
 
     /**
