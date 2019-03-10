@@ -1,5 +1,7 @@
 # Nextcloud Asset Source for Neos
 
+[![Latest Stable Version](https://poser.pugx.org/dl/assetsource-nextcloud/v/stable)](https://packagist.org/packages/dl/assetsource-nextcloud) [![Total Downloads](https://poser.pugx.org/dl/assetsource-nextcloud/downloads)](https://packagist.org/packages/dl/assetsource-nextcloud) [![License](https://poser.pugx.org/dl/assetsource-nextcloud/license)](https://packagist.org/packages/dl/assetsource-nextcloud)
+
 ![Nextcloud](Resources/Public/Nextcloud_Logo.svg)
 
 This package provides a direct access from the Neos media module to assets stored in your [Nextcloud](https://nextcloud.com/).
@@ -25,7 +27,7 @@ The Nextcloud / WebDav API has some limitations which needed some workaround to 
 
 	`assetResultLimit: 200`
 
-### Development Resources
+## Development Resources
 
 * Webdav Search: [https://docs.nextcloud.com/server/15/developer_manual/client_apis/WebDAV/search.html]()
 * OCS Api: https://docs.nextcloud.com/server/15/developer_manual/client_apis/OCS/index.html
