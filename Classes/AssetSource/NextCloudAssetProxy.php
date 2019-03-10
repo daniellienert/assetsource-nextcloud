@@ -133,7 +133,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getPreviewUri(): ?UriInterface
     {
-        return $this->assetSource->getThumbnailUrl($this->nextCloudAsset->getFileId(), 1000, 1000);
+        return $this->assetSource->getThumbnailUrl($this->nextCloudAsset, 1000, 1000);
     }
 
     /**
