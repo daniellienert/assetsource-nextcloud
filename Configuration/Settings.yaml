@@ -31,7 +31,7 @@ Neos:
 
 #            'OC\Preview\SVG': '/image\/svg\+xml/'
 #            'OC\Preview\TIFF': '/image\/tiff/'
-#            'OC\Preview\PDF': '/application\/pdf/'
+  #            'OC\Preview\PDF': '/application\/pdf/'
 #            'OC\Preview\Postscript': '/application\/postscript/'
 #            'OC\Preview\Illustrator': '/application\/illustrator/'
 #            'OC\Preview\Photoshop': '/application\/x-photoshop/'
