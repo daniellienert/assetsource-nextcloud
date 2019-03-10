@@ -67,6 +67,14 @@ class NextCloudAsset
     }
 
     /**
+     * @return string
+     */
+    public function getFileExtension(): string
+    {
+        return pathinfo(urldecode($this->path), PATHINFO_EXTENSION);
+    }
+
+    /**
      * @return int
      */
     public function getFileId(): int

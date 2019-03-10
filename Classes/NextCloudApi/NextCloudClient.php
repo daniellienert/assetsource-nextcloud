@@ -9,6 +9,7 @@ namespace DL\AssetSource\NextCloud\NextCloudApi;
  */
 
 
+use DL\AssetSource\NextCloud\NextCloudApi\Core\CoreApi;
 use DL\AssetSource\NextCloud\NextCloudApi\Modules\Gallery;
 use DL\AssetSource\NextCloud\NextCloudApi\WebDav\WebDavApi;
 
@@ -26,6 +27,11 @@ class NextCloudClient
     protected $webDavApi = null;
 
     /**
+     * @var CoreApi
+     */
+    protected $coreApi = null;
+
+    /**
      * @var Gallery
      */
     protected $gallery = null;
@@ -33,6 +39,17 @@ class NextCloudClient
     public function __construct(array $assetSourceSettings)
     {
         $this->assetSourceSettings = $assetSourceSettings;
+    }
+
+    /**
+     * @return CoreApi
+     */
+    public function core(): CoreApi
+    {
+        if ($this->coreApi === null) {
+            $this->coreApi = new CoreApi($this->assetSourceSettings);
+        }
+        return $this->coreApi;
     }
 
     /**

@@ -6,29 +6,41 @@ Neos:
         assetSourceOptions:
           label: Nextcloud
 
-          # How many files are requested at maximum
-          assetResultLimit: 200
-          basePath: '/'
-
           server:
             baseUri: 'https://owncloud.lienert.cc'
             userName: ''
             password: ''
 
-          previewableMimeTypes:
-            - 'image/png'
-            - 'image/jpeg'
-            - 'image/gif'
-            - 'image/x-xbitmap'
-            - 'image/bmp'
-            - 'image/tiff'
-            - 'image/x-dcraw'
-            - 'image/heic'
-            - 'image/heif'
-            - 'application/x-photoshop'
-            - 'application/illustrator'
-            - 'application/postscript'
+          # How many files are requested at maximum
+          assetResultLimit: 200
 
+          # Basepath in the users directory
+          basePath: '/'
+
+          # Activate the preview providers, which are also activated on the Nextlcoud side.
+          enabledPreviewProviders:
+            'OC\Preview\PNG': '/image\/png/'
+            'OC\Preview\JPEG': '/image\/jpeg/'
+            'OC\Preview\GIF': '/image\/gif/'
+            'OC\Preview\HEIC': '/image\/hei(f|c)/'
+            'OC\Preview\BMP': '/image\/bmp/'
+            'OC\Preview\XBitmap': '/image\/x-xbitmap/'
+            'OC\Preview\MP3': '/audio\/mpeg/'
+            'OC\Preview\TXT': '/text\/plain/'
+            'OC\Preview\MarkDown': '/text\/(x-)?markdown/'
+
+#            'OC\Preview\SVG': '/image\/svg\+xml/'
+#            'OC\Preview\TIFF': '/image\/tiff/'
+#            'OC\Preview\PDF': '/application\/pdf/'
+#            'OC\Preview\Postscript': '/application\/postscript/'
+#            'OC\Preview\Illustrator': '/application\/illustrator/'
+#            'OC\Preview\Photoshop': '/application\/x-photoshop/'
+#
+#            'OC\Preview\Movie': '/video\/.*/'
+         
+#            'OC\Preview\MSOffice2003': '/application\/vnd.ms-.*/'
+#            'OC\Preview\MSOffice2007':  '/application\/vnd.openxmlformats-officedocument.*/'
+            
 
   Flow:
     mvc:

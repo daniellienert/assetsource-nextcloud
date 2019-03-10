@@ -9,6 +9,7 @@ namespace DL\AssetSource\NextCloud\Controller;
  */
 
 use DL\AssetSource\NextCloud\AssetSource\NextCloudAssetSource;
+use DL\AssetSource\NextCloud\NextCloudApi\Core\CoreApi;
 use DL\AssetSource\NextCloud\NextCloudApi\Modules\Gallery;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
@@ -33,20 +34,20 @@ class ThumbnailController extends ActionController
     public function thumbnailAction(string $assetSourceIdentifier, int $fileId, int $width, int $height): string
     {
         $this->response->setHeader('Content-type', 'image/jpg');
-        return $this->getGalleryApi($assetSourceIdentifier)->getPreview($fileId, $width, $height);
+        return $this->getCoreApi($assetSourceIdentifier)->getPreview($fileId, $width, $height);
     }
 
     /**
      * @param string $assetSourceIdentifier
-     * @return Gallery|null
+     * @return CoreApi
      */
-    protected function getGalleryApi(string $assetSourceIdentifier): Gallery
+    protected function getCoreApi(string $assetSourceIdentifier): CoreApi
     {
         $assetSources = $this->assetSourceService->getAssetSources();
         $assetSource = $assetSources[$assetSourceIdentifier];
 
         if ($assetSource instanceof NextCloudAssetSource) {
-            return $assetSource->getNextCloudClient()->gallery();
+            return $assetSource->getNextCloudClient()->core();
         }
     }
 }

@@ -199,8 +199,13 @@ final class NextCloudAssetSource implements AssetSourceInterface
      */
     private function nextcloudSupportsThumbnailGeneration(NextCloudAsset $nextCloudAsset): bool
     {
-        $supportedTypes = $this->assetSourceOptions['previewableMimeTypes'] ?? [];
-        return in_array($nextCloudAsset->getContentType(), $supportedTypes);
+        $supportedTypes = $this->assetSourceOptions['enabledPreviewProviders'] ?? [];
+        foreach ($supportedTypes as $nextCloudProvider => $mimeTypeRegex) {
+            if (preg_match($mimeTypeRegex, $nextCloudAsset->getContentType())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
