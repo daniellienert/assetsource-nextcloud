@@ -96,7 +96,6 @@ class WebDavApi
         $requestBody = $this->buildRequestBody($this->userName, $searchString, $this->assetResultLimit);
 
         $response = $this->client->request('SEARCH', '', $requestBody, ['Content-Type' => 'text/xml']);
-
         $offset = $offset > $this->assetResultLimit ? $this->assetResultLimit : $offset;
         $multiStatus = $this->client->parseMultiStatus($response['body']);
         $resultCount = count($multiStatus);

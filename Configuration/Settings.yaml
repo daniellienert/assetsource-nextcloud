@@ -17,7 +17,7 @@ Neos:
           # Basepath in the users directory
           basePath: '/'
 
-          # Activate the preview providers, which are also activated on the Nextlcoud side.
+          # Activate the preview providers, which are also activated for your Nextlcoud.
           enabledPreviewProviders:
             'OC\Preview\PNG': '/image\/png/'
             'OC\Preview\JPEG': '/image\/jpeg/'
@@ -31,7 +31,7 @@ Neos:
 
 #            'OC\Preview\SVG': '/image\/svg\+xml/'
 #            'OC\Preview\TIFF': '/image\/tiff/'
-  #            'OC\Preview\PDF': '/application\/pdf/'
+#            'OC\Preview\PDF': '/application\/pdf/'
 #            'OC\Preview\Postscript': '/application\/postscript/'
 #            'OC\Preview\Illustrator': '/application\/illustrator/'
 #            'OC\Preview\Photoshop': '/application\/x-photoshop/'
