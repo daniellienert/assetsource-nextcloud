@@ -12,6 +12,7 @@ namespace DL\AssetSource\Nextcloud\AssetSource;
  */
 
 use DL\AssetSource\Nextcloud\Exception\NextcloudAssetSourceException;
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\WebDavApi;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyRepositoryInterface;
@@ -49,6 +50,7 @@ final class NextcloudAssetProxyRepository implements AssetProxyRepositoryInterfa
      */
     public function getAssetProxy(string $identifier): AssetProxyInterface
     {
+        $identifier = WebDavApi::ENDPOINT_URL_PART . $identifier;
         return new NextcloudAssetProxy($this->assetSource->getNextcloudClient()->webDav()->propfind($identifier), $this->assetSource);
     }
 

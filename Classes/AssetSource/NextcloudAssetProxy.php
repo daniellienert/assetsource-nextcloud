@@ -11,6 +11,7 @@ namespace DL\AssetSource\Nextcloud\AssetSource;
  * source code.
  */
 
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\WebDavApi;
 use Neos\Flow\Annotations as Flow;
 use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\Dto\NextcloudAsset;
 use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
@@ -62,7 +63,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getIdentifier(): string
     {
-        return $this->NextcloudAsset->getPath();
+        return str_replace(WebDavApi::ENDPOINT_URL_PART, '', $this->NextcloudAsset->getPath());
     }
 
     /**

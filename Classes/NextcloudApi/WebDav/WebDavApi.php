@@ -19,6 +19,8 @@ use Sabre\DAV\Client;
 
 class WebDavApi
 {
+    public const ENDPOINT_URL_PART = '/remote.php/dav/files/';
+
     /**
      * @var string
      */
