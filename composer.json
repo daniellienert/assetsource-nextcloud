@@ -15,12 +15,12 @@
     },
     "autoload": {
         "psr-4": {
-            "DL\\AssetSource\\NextCloud\\": "Classes/"
+            "DL\\AssetSource\\Nextcloud\\": "Classes/"
         }
     },
     "extra": {
         "neos": {
-            "package-key": "DL.AssetSource.NextCloud"
+            "package-key": "DL.AssetSource.Nextcloud"
         }
     }
 }

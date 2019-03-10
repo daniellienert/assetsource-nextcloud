@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace DL\AssetSource\NextCloud\NextCloudApi\WebDav\Dto;
+namespace DL\AssetSource\Nextcloud\NextcloudApi\WebDav\Dto;
 
 /*
- * This file is part of the DL.AssetSource.NextCloud package.
+ * This file is part of the DL.AssetSource.Nextcloud package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-class NextCloudAsset
+class NextcloudAsset
 {
     /**
      * @var string
@@ -50,7 +50,7 @@ class NextCloudAsset
         $this->lastModified = \DateTime::createFromFormat(DATE_RFC1123, $clarkResult['{DAV:}getlastmodified']);
         $this->contentType = $clarkResult['{DAV:}getcontenttype'] ?? '?/?';
         $this->contentLength = (int)($clarkResult['{DAV:}getcontentlength'] ?? 0);
-        $this->hasPreview = isset($clarkResult['{http://nextcloud.org/ns}has-preview']) && $clarkResult['{http://nextcloud.org/ns}has-preview'] === 'true';
+        $this->hasPreview = isset($clarkResult['{http://Nextcloud.org/ns}has-preview']) && $clarkResult['{http://Nextcloud.org/ns}has-preview'] === 'true';
     }
 
     /**

@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace DL\AssetSource\NextCloud\AssetSource;
+namespace DL\AssetSource\Nextcloud\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.NextCloud package.
+ * This file is part of the DL.AssetSource.Nextcloud package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
@@ -15,11 +15,11 @@ use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceConnectionExceptionInterface;
 
-final class NextCloudAssetProxyQuery implements AssetProxyQueryInterface
+final class NextcloudAssetProxyQuery implements AssetProxyQueryInterface
 {
 
     /**
-     * @var NextCloudAssetSource
+     * @var NextcloudAssetSource
      */
     private $assetSource;
 
@@ -40,9 +40,9 @@ final class NextCloudAssetProxyQuery implements AssetProxyQueryInterface
 
     /**
      * UnsplashAssetProxyQuery constructor.
-     * @param NextCloudAssetSource $assetSource
+     * @param NextcloudAssetSource $assetSource
      */
-    public function __construct(NextCloudAssetSource $assetSource)
+    public function __construct(NextcloudAssetSource $assetSource)
     {
         $this->assetSource = $assetSource;
         $this->limit = $this->assetSource->getMaxItemLimit();
@@ -102,8 +102,8 @@ final class NextCloudAssetProxyQuery implements AssetProxyQueryInterface
      */
     public function execute(): AssetProxyQueryResultInterface
     {
-        $searchResult = $this->assetSource->getNextCloudClient()->webDav()->search($this->searchTerm, $this->limit, $this->offset);
-        return new NextCloudAssetProxyQueryResult($this, $searchResult, $this->assetSource);
+        $searchResult = $this->assetSource->getNextcloudClient()->webDav()->search($this->searchTerm, $this->limit, $this->offset);
+        return new NextcloudAssetProxyQueryResult($this, $searchResult, $this->assetSource);
     }
 
     /**

@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace DL\AssetSource\NextCloud\Controller;
+namespace DL\AssetSource\Nextcloud\Controller;
 
 /*
- * This file is part of the DL.AssetSource.NextCloud package.
+ * This file is part of the DL.AssetSource.Nextcloud package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\NextCloud\AssetSource\NextCloudAssetSource;
-use DL\AssetSource\NextCloud\NextCloudApi\Core\CoreApi;
-use DL\AssetSource\NextCloud\NextCloudApi\Modules\Gallery;
+use DL\AssetSource\Nextcloud\AssetSource\NextcloudAssetSource;
+use DL\AssetSource\Nextcloud\NextcloudApi\Core\CoreApi;
+use DL\AssetSource\Nextcloud\NextcloudApi\Modules\Gallery;
 use Neos\Flow\Annotations as Flow;
 use Neos\Flow\Mvc\Controller\ActionController;
 use Neos\Media\Domain\Service\AssetSourceService;
@@ -49,8 +49,8 @@ class ThumbnailController extends ActionController
         $assetSources = $this->assetSourceService->getAssetSources();
         $assetSource = $assetSources[$assetSourceIdentifier];
 
-        if ($assetSource instanceof NextCloudAssetSource) {
-            return $assetSource->getNextCloudClient()->core();
+        if ($assetSource instanceof NextcloudAssetSource) {
+            return $assetSource->getNextcloudClient()->core();
         }
     }
 }

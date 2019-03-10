@@ -1,57 +1,57 @@
 <?php
 declare(strict_types=1);
 
-namespace DL\AssetSource\NextCloud\AssetSource;
+namespace DL\AssetSource\Nextcloud\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.NextCloud package.
+ * This file is part of the DL.AssetSource.Nextcloud package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\NextCloud\NextCloudApi\WebDav\Dto\NextCloudAsset;
-use DL\AssetSource\NextCloud\NextCloudApi\WebDav\Dto\SearchResult;
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\Dto\NextcloudAsset;
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\Dto\SearchResult;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
 
-final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInterface
+final class NextcloudAssetProxyQueryResult implements AssetProxyQueryResultInterface
 {
 
     /**
-     * @var NextCloudAssetSource
+     * @var NextcloudAssetSource
      */
     private $assetSource;
 
     /**
      * @var mixed[]
      */
-    private $nextCloudSearchResult;
+    private $NextcloudSearchResult;
 
     /**
-     * @var NextCloudAssetProxyQuery
+     * @var NextcloudAssetProxyQuery
      */
-    private $nextCloudAssetProxyQuery;
+    private $NextcloudAssetProxyQuery;
 
     /**
      * @var \Iterator
      */
-    private $nextCloudSearchResultIterator;
+    private $NextcloudSearchResultIterator;
 
     /**
-     * NextCloudAssetProxyQueryResult constructor.
-     * @param NextCloudAssetProxyQuery $query
-     * @param SearchResult $nextCloudSearchResult
-     * @param NextCloudAssetSource $assetSource
+     * NextcloudAssetProxyQueryResult constructor.
+     * @param NextcloudAssetProxyQuery $query
+     * @param SearchResult $NextcloudSearchResult
+     * @param NextcloudAssetSource $assetSource
      */
-    public function __construct(NextCloudAssetProxyQuery $query, SearchResult $nextCloudSearchResult, NextCloudAssetSource $assetSource)
+    public function __construct(NextcloudAssetProxyQuery $query, SearchResult $NextcloudSearchResult, NextcloudAssetSource $assetSource)
     {
-        $this->nextCloudAssetProxyQuery = $query;
+        $this->NextcloudAssetProxyQuery = $query;
         $this->assetSource = $assetSource;
-        $this->nextCloudSearchResult = $nextCloudSearchResult;
-        $this->nextCloudSearchResultIterator = $nextCloudSearchResult->getAssetIterator();
+        $this->NextcloudSearchResult = $NextcloudSearchResult;
+        $this->NextcloudSearchResultIterator = $NextcloudSearchResult->getAssetIterator();
     }
 
     /**
@@ -62,10 +62,10 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function current()
     {
-        $asset = $this->nextCloudSearchResultIterator->current();
+        $asset = $this->NextcloudSearchResultIterator->current();
 
-        if ($asset instanceof NextCloudAsset) {
-            return new NextCloudAssetProxy($asset, $this->assetSource);
+        if ($asset instanceof NextcloudAsset) {
+            return new NextcloudAssetProxy($asset, $this->assetSource);
         } else {
             return null;
         }
@@ -79,7 +79,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function next()
     {
-        return $this->nextCloudSearchResultIterator->next();
+        return $this->NextcloudSearchResultIterator->next();
     }
 
     /**
@@ -90,7 +90,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function key()
     {
-        return $this->nextCloudSearchResultIterator->key();
+        return $this->NextcloudSearchResultIterator->key();
     }
 
     /**
@@ -102,7 +102,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function valid()
     {
-        return $this->nextCloudSearchResultIterator->valid();
+        return $this->NextcloudSearchResultIterator->valid();
     }
 
     /**
@@ -113,7 +113,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function rewind()
     {
-        $this->nextCloudSearchResultIterator->rewind();
+        $this->NextcloudSearchResultIterator->rewind();
     }
 
     /**
@@ -130,7 +130,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function offsetExists($offset)
     {
-        return $this->nextCloudSearchResultIterator->offsetExists($offset);
+        return $this->NextcloudSearchResultIterator->offsetExists($offset);
     }
 
     /**
@@ -144,7 +144,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function offsetGet($offset)
     {
-        return $this->nextCloudSearchResultIterator->offsetGet($offset);
+        return $this->NextcloudSearchResultIterator->offsetGet($offset);
     }
 
     /**
@@ -161,7 +161,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function offsetSet($offset, $value)
     {
-        $this->nextCloudSearchResultIterator->offsetSet($offset, $value);
+        $this->NextcloudSearchResultIterator->offsetSet($offset, $value);
     }
 
     /**
@@ -175,7 +175,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function offsetUnset($offset)
     {
-        $this->nextCloudSearchResultIterator->offsetUnset($offset);
+        $this->NextcloudSearchResultIterator->offsetUnset($offset);
     }
 
     /**
@@ -189,7 +189,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function count()
     {
-        return $this->nextCloudSearchResult->getTotalResults();
+        return $this->NextcloudSearchResult->getTotalResults();
     }
 
     /**
@@ -199,7 +199,7 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function getQuery(): AssetProxyQueryInterface
     {
-        return $this->nextCloudAssetProxyQuery;
+        return $this->NextcloudAssetProxyQuery;
     }
 
     /**
@@ -221,6 +221,6 @@ final class NextCloudAssetProxyQueryResult implements AssetProxyQueryResultInter
      */
     public function toArray(): array
     {
-        return $this->nextCloudSearchResult->getAssets()->getArrayCopy();
+        return $this->NextcloudSearchResult->getAssets()->getArrayCopy();
     }
 }

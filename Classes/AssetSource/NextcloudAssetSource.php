@@ -1,20 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace DL\AssetSource\NextCloud\AssetSource;
+namespace DL\AssetSource\Nextcloud\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.NextCloud package.
+ * This file is part of the DL.AssetSource.Nextcloud package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\NextCloud\NextCloudApi\WebDav\Dto\NextCloudAsset;
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\Dto\NextcloudAsset;
 use Neos\Flow\Annotations as Flow;
-use DL\AssetSource\NextCloud\Exception\NextCloudAssetSourceException;
-use DL\AssetSource\NextCloud\NextCloudApi\NextCloudClient;
+use DL\AssetSource\Nextcloud\Exception\NextcloudAssetSourceException;
+use DL\AssetSource\Nextcloud\NextcloudApi\NextcloudClient;
 use Neos\Flow\Core\Bootstrap;
 use Neos\Flow\Http\HttpRequestHandlerInterface;
 use Neos\Flow\Http\Uri;
@@ -26,7 +26,7 @@ use Neos\Media\Domain\Model\AssetSource\AssetProxyRepositoryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceInterface;
 use Neos\Media\Domain\Service\FileTypeIconService;
 
-final class NextCloudAssetSource implements AssetSourceInterface
+final class NextcloudAssetSource implements AssetSourceInterface
 {
 
     /**
@@ -55,9 +55,9 @@ final class NextCloudAssetSource implements AssetSourceInterface
     private $maxItemLimit;
 
     /**
-     * @var NextCloudClient
+     * @var NextcloudClient
      */
-    private $nextCloudClient;
+    private $NextcloudClient;
 
     /**
      * @Flow\Inject
@@ -80,7 +80,7 @@ final class NextCloudAssetSource implements AssetSourceInterface
     /**
      * @param string $assetSourceIdentifier
      * @param array $assetSourceOptions
-     * @throws NextCloudAssetSourceException
+     * @throws NextcloudAssetSourceException
      */
     public function __construct(string $assetSourceIdentifier, array $assetSourceOptions)
     {
@@ -91,10 +91,10 @@ final class NextCloudAssetSource implements AssetSourceInterface
         $this->maxItemLimit = $this->assetSourceOptions['maxItemLimit'] ?? 300;
 
         if (empty($this->assetSourceOptions['server']) || empty($this->assetSourceOptions['server']['baseUri']) || empty($this->assetSourceOptions['server']['userName']) || empty($this->assetSourceOptions['server']['password'])) {
-            throw new NextCloudAssetSourceException('The given server configuration is not complete.');
+            throw new NextcloudAssetSourceException('The given server configuration is not complete.');
         }
 
-        $this->nextCloudClient = new NextCloudClient($this->assetSourceOptions);
+        $this->NextcloudClient = new NextcloudClient($this->assetSourceOptions);
     }
 
     public function initializeObject()
@@ -106,7 +106,7 @@ final class NextCloudAssetSource implements AssetSourceInterface
      * @param string $assetSourceIdentifier
      * @param array $assetSourceOptions
      * @return AssetSourceInterface
-     * @throws NextCloudAssetSourceException
+     * @throws NextcloudAssetSourceException
      */
     public static function createFromConfiguration(string $assetSourceIdentifier, array $assetSourceOptions): AssetSourceInterface
     {
@@ -141,11 +141,11 @@ final class NextCloudAssetSource implements AssetSourceInterface
     }
 
     /**
-     * @return NextCloudClient
+     * @return NextcloudClient
      */
-    public function getNextCloudClient(): NextCloudClient
+    public function getNextcloudClient(): NextcloudClient
     {
-        return $this->nextCloudClient;
+        return $this->NextcloudClient;
     }
 
     /**
@@ -154,7 +154,7 @@ final class NextCloudAssetSource implements AssetSourceInterface
     public function getAssetProxyRepository(): AssetProxyRepositoryInterface
     {
         if ($this->assetProxyRepository === null) {
-            $this->assetProxyRepository = new NextCloudAssetProxyRepository($this);
+            $this->assetProxyRepository = new NextcloudAssetProxyRepository($this);
         }
 
         return $this->assetProxyRepository;
@@ -169,22 +169,22 @@ final class NextCloudAssetSource implements AssetSourceInterface
     }
 
     /**
-     * @param NextCloudAsset $nextCloudAsset
+     * @param NextcloudAsset $NextcloudAsset
      * @param int $width
      * @param int $height
      * @return Uri
      * @throws MissingActionNameException
      */
-    public function getThumbnailUrl(NextCloudAsset $nextCloudAsset, int $width, int $height): Uri
+    public function getThumbnailUrl(NextcloudAsset $NextcloudAsset, int $width, int $height): Uri
     {
-        if (!$this->nextcloudSupportsThumbnailGeneration($nextCloudAsset)) {
-            $icon = FileTypeIconService::getIcon($nextCloudAsset->getFileName());
+        if (!$this->NextcloudSupportsThumbnailGeneration($NextcloudAsset)) {
+            $icon = FileTypeIconService::getIcon($NextcloudAsset->getFileName());
             return new Uri($this->resourceManager->getPublicPackageResourceUriByPath($icon['src']));
         }
 
         $arguments = [
             'assetSourceIdentifier' => $this->getIdentifier(),
-            'fileId' => $nextCloudAsset->getFileId(),
+            'fileId' => $NextcloudAsset->getFileId(),
             'width' => $width,
             'height' => $height
         ];
@@ -192,19 +192,19 @@ final class NextCloudAssetSource implements AssetSourceInterface
         return new Uri($this->uriBuilder
             ->reset()
             ->setCreateAbsoluteUri(true)
-            ->uriFor('thumbnail', $arguments, 'Thumbnail', 'DL.AssetSource.NextCloud')
+            ->uriFor('thumbnail', $arguments, 'Thumbnail', 'DL.AssetSource.Nextcloud')
         );
     }
 
     /**
-     * @param NextCloudAsset $nextCloudAsset
+     * @param NextcloudAsset $NextcloudAsset
      * @return bool
      */
-    private function nextcloudSupportsThumbnailGeneration(NextCloudAsset $nextCloudAsset): bool
+    private function NextcloudSupportsThumbnailGeneration(NextcloudAsset $NextcloudAsset): bool
     {
         $supportedTypes = $this->assetSourceOptions['enabledPreviewProviders'] ?? [];
-        foreach ($supportedTypes as $nextCloudProvider => $mimeTypeRegex) {
-            if (preg_match($mimeTypeRegex, $nextCloudAsset->getContentType())) {
+        foreach ($supportedTypes as $NextcloudProvider => $mimeTypeRegex) {
+            if (preg_match($mimeTypeRegex, $NextcloudAsset->getContentType())) {
                 return true;
             }
         }

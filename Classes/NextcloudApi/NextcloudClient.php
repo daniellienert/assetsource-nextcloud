@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace DL\AssetSource\NextCloud\NextCloudApi;
+namespace DL\AssetSource\Nextcloud\NextcloudApi;
 
 /*
- * This file is part of the DL.AssetSource.NextCloud package.
+ * This file is part of the DL.AssetSource.Nextcloud package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
@@ -12,11 +12,11 @@ namespace DL\AssetSource\NextCloud\NextCloudApi;
  */
 
 
-use DL\AssetSource\NextCloud\NextCloudApi\Core\CoreApi;
-use DL\AssetSource\NextCloud\NextCloudApi\Modules\Gallery;
-use DL\AssetSource\NextCloud\NextCloudApi\WebDav\WebDavApi;
+use DL\AssetSource\Nextcloud\NextcloudApi\Core\CoreApi;
+use DL\AssetSource\Nextcloud\NextcloudApi\Modules\Gallery;
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\WebDavApi;
 
-class NextCloudClient
+class NextcloudClient
 {
 
     /**

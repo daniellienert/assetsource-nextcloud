@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace DL\AssetSource\NextCloud\AssetSource;
+namespace DL\AssetSource\Nextcloud\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.NextCloud package.
+ * This file is part of the DL.AssetSource.Nextcloud package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\NextCloud\Exception\NextCloudAssetSourceException;
+use DL\AssetSource\Nextcloud\Exception\NextcloudAssetSourceException;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyQueryResultInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyRepositoryInterface;
@@ -20,11 +20,11 @@ use Neos\Media\Domain\Model\AssetSource\AssetTypeFilter;
 use Neos\Media\Domain\Model\Tag;
 use Sabre\HTTP\ClientHttpException;
 
-final class NextCloudAssetProxyRepository implements AssetProxyRepositoryInterface
+final class NextcloudAssetProxyRepository implements AssetProxyRepositoryInterface
 {
 
     /**
-     * @var NextCloudAssetSource
+     * @var NextcloudAssetSource
      */
     private $assetSource;
 
@@ -34,9 +34,9 @@ final class NextCloudAssetProxyRepository implements AssetProxyRepositoryInterfa
     private $assetTypeFilter;
 
     /**
-     * @param NextCloudAssetSource $assetSource
+     * @param NextcloudAssetSource $assetSource
      */
-    public function __construct(NextCloudAssetSource $assetSource)
+    public function __construct(NextcloudAssetSource $assetSource)
     {
         $this->assetSource = $assetSource;
     }
@@ -44,12 +44,12 @@ final class NextCloudAssetProxyRepository implements AssetProxyRepositoryInterfa
     /**
      * @param string $identifier
      * @return AssetProxyInterface
-     * @throws NextCloudAssetSourceException
+     * @throws NextcloudAssetSourceException
      * @throws ClientHttpException
      */
     public function getAssetProxy(string $identifier): AssetProxyInterface
     {
-        return new NextCloudAssetProxy($this->assetSource->getNextCloudClient()->webDav()->propfind($identifier), $this->assetSource);
+        return new NextcloudAssetProxy($this->assetSource->getNextcloudClient()->webDav()->propfind($identifier), $this->assetSource);
     }
 
     /**
@@ -67,7 +67,7 @@ final class NextCloudAssetProxyRepository implements AssetProxyRepositoryInterfa
      */
     public function findAll(): AssetProxyQueryResultInterface
     {
-        return (new NextCloudAssetProxyQuery($this->assetSource))->execute();
+        return (new NextcloudAssetProxyQuery($this->assetSource))->execute();
     }
 
     /**
@@ -76,7 +76,7 @@ final class NextCloudAssetProxyRepository implements AssetProxyRepositoryInterfa
      */
     public function findBySearchTerm(string $searchTerm): AssetProxyQueryResultInterface
     {
-        $query = new NextCloudAssetProxyQuery($this->assetSource);
+        $query = new NextcloudAssetProxyQuery($this->assetSource);
         $query->setSearchTerm($searchTerm);
         return $query->execute();
     }

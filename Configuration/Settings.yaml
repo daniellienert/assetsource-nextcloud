@@ -2,7 +2,7 @@ Neos:
   Media:
     assetSources:
       nextcloud:
-        assetSource: 'DL\AssetSource\NextCloud\AssetSource\NextCloudAssetSource'
+        assetSource: 'DL\AssetSource\Nextcloud\AssetSource\NextcloudAssetSource'
         assetSourceOptions:
           label: Nextcloud
 
@@ -45,5 +45,5 @@ Neos:
   Flow:
     mvc:
       routes:
-        DL.AssetSource.NextCloud:
+        DL.AssetSource.Nextcloud:
           position: 'before Neos.Neos'

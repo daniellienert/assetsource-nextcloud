@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace DL\AssetSource\NextCloud\AssetSource;
+namespace DL\AssetSource\Nextcloud\AssetSource;
 
 /*
- * This file is part of the DL.AssetSource.NextCloud package.
+ * This file is part of the DL.AssetSource.Nextcloud package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
@@ -12,7 +12,7 @@ namespace DL\AssetSource\NextCloud\AssetSource;
  */
 
 use Neos\Flow\Annotations as Flow;
-use DL\AssetSource\NextCloud\NextCloudApi\WebDav\Dto\NextCloudAsset;
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\Dto\NextcloudAsset;
 use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\HasRemoteOriginalInterface;
@@ -21,12 +21,12 @@ use Neos\Media\Domain\Model\ImportedAsset;
 use Neos\Media\Domain\Repository\ImportedAssetRepository;
 use Psr\Http\Message\UriInterface;
 
-final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOriginalInterface
+final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOriginalInterface
 {
     /**
      * @var mixed[]
      */
-    protected $nextCloudAsset;
+    protected $NextcloudAsset;
 
     /**
      * @var ImportedAsset
@@ -34,18 +34,18 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     private $importedAsset;
 
     /**
-     * @var NextCloudAssetSource
+     * @var NextcloudAssetSource
      */
     private $assetSource;
 
     /**
-     * @param NextCloudAsset $nextCloudAsset
-     * @param NextCloudAssetSource $assetSource
+     * @param NextcloudAsset $NextcloudAsset
+     * @param NextcloudAssetSource $assetSource
      */
-    public function __construct(NextCloudAsset $nextCloudAsset, NextCloudAssetSource $assetSource)
+    public function __construct(NextcloudAsset $NextcloudAsset, NextcloudAssetSource $assetSource)
     {
         $this->assetSource = $assetSource;
-        $this->nextCloudAsset = $nextCloudAsset;
+        $this->NextcloudAsset = $NextcloudAsset;
         $this->importedAsset = (new ImportedAssetRepository())->findOneByAssetSourceIdentifierAndRemoteAssetIdentifier($assetSource->getIdentifier(), $this->getIdentifier());
     }
 
@@ -62,7 +62,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getIdentifier(): string
     {
-        return $this->nextCloudAsset->getPath();
+        return $this->NextcloudAsset->getPath();
     }
 
     /**
@@ -70,7 +70,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getLabel(): string
     {
-        return urldecode(pathinfo(urldecode($this->nextCloudAsset->getPath()), PATHINFO_FILENAME));
+        return urldecode(pathinfo(urldecode($this->NextcloudAsset->getPath()), PATHINFO_FILENAME));
     }
 
     /**
@@ -78,7 +78,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getFilename(): string
     {
-        return $this->nextCloudAsset->getFileName();
+        return $this->NextcloudAsset->getFileName();
     }
 
     /**
@@ -86,7 +86,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getLastModified(): \DateTimeInterface
     {
-        return $this->nextCloudAsset->getLastModified();
+        return $this->NextcloudAsset->getLastModified();
     }
 
     /**
@@ -94,7 +94,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getFileSize(): int
     {
-        return $this->nextCloudAsset->getContentLength();
+        return $this->NextcloudAsset->getContentLength();
     }
 
     /**
@@ -102,7 +102,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getMediaType(): string
     {
-        return $this->nextCloudAsset->getContentType();
+        return $this->NextcloudAsset->getContentType();
     }
 
     /**
@@ -127,7 +127,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getThumbnailUri(): ?UriInterface
     {
-        return $this->assetSource->getThumbnailUrl($this->nextCloudAsset, 250, 250);
+        return $this->assetSource->getThumbnailUrl($this->NextcloudAsset, 250, 250);
     }
 
     /**
@@ -136,7 +136,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getPreviewUri(): ?UriInterface
     {
-        return $this->assetSource->getThumbnailUrl($this->nextCloudAsset, 1000, 1000);
+        return $this->assetSource->getThumbnailUrl($this->NextcloudAsset, 1000, 1000);
     }
 
     /**
@@ -145,7 +145,7 @@ final class NextCloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     public function getImportStream()
     {
         $stream = fopen('php://memory', 'r+');
-        fwrite($stream, $this->assetSource->getNextCloudClient()->webDav()->getFileContent($this->nextCloudAsset->getPath()));
+        fwrite($stream, $this->assetSource->getNextcloudClient()->webDav()->getFileContent($this->NextcloudAsset->getPath()));
         rewind($stream);
         return $stream;
     }

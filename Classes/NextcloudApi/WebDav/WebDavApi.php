@@ -1,19 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace DL\AssetSource\NextCloud\NextCloudApi\WebDav;
+namespace DL\AssetSource\Nextcloud\NextcloudApi\WebDav;
 
 /*
- * This file is part of the DL.AssetSource.NextCloud package.
+ * This file is part of the DL.AssetSource.Nextcloud package.
  *
  * This package is Open Source Software. For the full copyright and license
  * information, please view the LICENSE file which was distributed with this
  * source code.
  */
 
-use DL\AssetSource\NextCloud\Exception\NextCloudAssetSourceException;
-use DL\AssetSource\NextCloud\NextCloudApi\WebDav\Dto\NextCloudAsset;
-use DL\AssetSource\NextCloud\NextCloudApi\WebDav\Dto\SearchResult;
+use DL\AssetSource\Nextcloud\Exception\NextcloudAssetSourceException;
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\Dto\NextcloudAsset;
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\Dto\SearchResult;
 use Neos\Utility\Files;
 use Sabre\DAV\Client;
 
@@ -42,7 +42,7 @@ class WebDavApi
         '{DAV:}getcontenttype' => 'contentType',
         '{DAV:}getcontentlength' => 'contentLength',
         '{DAV:}is-collection' => 'isCollection',
-        '{http://nextcloud.org/ns}has-preview' => 'hasPreview',
+        '{http://Nextcloud.org/ns}has-preview' => 'hasPreview',
         '{http://owncloud.org/ns}fileid' => 'fileId',
     ];
 
@@ -58,19 +58,19 @@ class WebDavApi
 
     /**
      * @param string $path
-     * @return NextCloudAsset
+     * @return NextcloudAsset
      * @throws \Sabre\HTTP\ClientHttpException
-     * @throws NextCloudAssetSourceException
+     * @throws NextcloudAssetSourceException
      */
-    public function propfind(string $path): NextCloudAsset
+    public function propfind(string $path): NextcloudAsset
     {
         $clarkResult = $this->client->propFind($path, array_keys($this->properties));
 
         if (empty($clarkResult)) {
-            throw new NextCloudAssetSourceException(sprintf('Asset at path "%s" does not exist', $path), 1551705470);
+            throw new NextcloudAssetSourceException(sprintf('Asset at path "%s" does not exist', $path), 1551705470);
         }
 
-        return new NextCloudAsset($path, $clarkResult);
+        return new NextcloudAsset($path, $clarkResult);
     }
 
     /**
@@ -121,7 +121,7 @@ class WebDavApi
                 continue;
             }
 
-            $assets[$filePath] = new NextCloudAsset($filePath, $status[200]);
+            $assets[$filePath] = new NextcloudAsset($filePath, $status[200]);
         }
 
         return $assets;
@@ -132,7 +132,7 @@ class WebDavApi
         $search = $search === '' ? '%' : '%' . $search . '%';
 
         return sprintf('<?xml version="1.0"?>
-            <d:searchrequest xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://nextcloud.org/ns">
+            <d:searchrequest xmlns:d="DAV:" xmlns:oc="http://owncloud.org/ns" xmlns:nc="http://Nextcloud.org/ns">
                 <d:basicsearch>
                     <d:select>
                         <d:prop>
