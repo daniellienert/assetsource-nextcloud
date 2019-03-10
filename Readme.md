@@ -10,6 +10,9 @@ This package provides a direct access from the Neos media module to assets store
 
 ### Development Resources
 
-* Webdav Search: [https://docs.nextcloud.com/server/15/developer_manual/client_apis/WebDAV/search.html]()
-* OCS Api: https://docs.nextcloud.com/server/15/developer_manual/client_apis/OCS/index.html
-* Nextcloud Gallery API: https://github.com/nextcloud/gallery/wiki/RESTful-API
+This is a list of resources used to develop this package:
+
+* [Webdav Search](https://docs.nextcloud.com/server/15/developer_manual/client_apis/WebDAV/search.html)
+* [OCS Api](https://docs.nextcloud.com/server/15/developer_manual/client_apis/OCS/index.html)
+* [Nextcloud Gallery API](https://github.com/nextcloud/gallery/wiki/RESTful-API)
+* [Supported MimeTypes for thumbnail generation](https://github.com/nextcloud/gallery/blob/e84fdf090f15b34219d5e36531990c93e7435155/lib/Service/ConfigService.php#L47)
