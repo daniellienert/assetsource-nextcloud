@@ -11,18 +11,19 @@ namespace DL\AssetSource\Nextcloud\AssetSource;
  * source code.
  */
 
-use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\WebDavApi;
 use Neos\Flow\Annotations as Flow;
+use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\WebDavApi;
 use DL\AssetSource\Nextcloud\NextcloudApi\WebDav\Dto\NextcloudAsset;
 use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\AssetProxyInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetProxy\HasRemoteOriginalInterface;
+use Neos\Media\Domain\Model\AssetSource\AssetProxy\SupportsIptcMetadataInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceInterface;
 use Neos\Media\Domain\Model\ImportedAsset;
 use Neos\Media\Domain\Repository\ImportedAssetRepository;
 use Psr\Http\Message\UriInterface;
 
-final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOriginalInterface
+final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOriginalInterface, SupportsIptcMetadataInterface
 {
     /**
      * @var mixed[]
@@ -38,6 +39,11 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      * @var NextcloudAssetSource
      */
     private $assetSource;
+
+    /**
+     * @var array
+     */
+    private $iptcProperties = null;
 
     /**
      * @param NextcloudAsset $NextcloudAsset
@@ -168,5 +174,46 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     public function isImported(): bool
     {
         return $this->importedAsset !== null;
+    }
+
+    /**
+     * Returns true, if the given IPTC metadata property is available, ie. is supported and is not empty.
+     *
+     * @param string $propertyName
+     * @return bool
+     * @throws \Neos\Eel\Exception
+     */
+    public function hasIptcProperty(string $propertyName): bool
+    {
+        return isset($this->getIptcProperties()[$propertyName]);
+    }
+
+    /**
+     * Returns the given IPTC metadata property if it exists, or an empty string otherwise.
+     *
+     * @param string $propertyName
+     * @return string
+     * @throws \Neos\Eel\Exception
+     */
+    public function getIptcProperty(string $propertyName): string
+    {
+        return $this->getIptcProperties()[$propertyName] ?? '';
+    }
+
+    /**
+     * Returns all known IPTC metadata properties as key => value (e.g. "Title" => "My Photo")
+     *
+     * @return array
+     * @throws \Neos\Eel\Exception
+     */
+    public function getIptcProperties(): array
+    {
+        if ($this->iptcProperties === null) {
+            $this->iptcProperties = [
+                'Title' => $this->getLabel(),
+            ];
+        }
+
+        return $this->iptcProperties;
     }
 }
