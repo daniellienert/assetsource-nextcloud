@@ -28,7 +28,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     /**
      * @var mixed[]
      */
-    protected $NextcloudAsset;
+    protected $nextcloudAsset;
 
     /**
      * @var ImportedAsset
@@ -52,7 +52,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     public function __construct(NextcloudAsset $NextcloudAsset, NextcloudAssetSource $assetSource)
     {
         $this->assetSource = $assetSource;
-        $this->NextcloudAsset = $NextcloudAsset;
+        $this->nextcloudAsset = $NextcloudAsset;
         $this->importedAsset = (new ImportedAssetRepository())->findOneByAssetSourceIdentifierAndRemoteAssetIdentifier($assetSource->getIdentifier(), $this->getIdentifier());
     }
 
@@ -69,7 +69,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getIdentifier(): string
     {
-        return str_replace(WebDavApi::ENDPOINT_URL_PART, '', $this->NextcloudAsset->getPath());
+        return str_replace(WebDavApi::ENDPOINT_URL_PART, '', $this->nextcloudAsset->getPath());
     }
 
     /**
@@ -77,7 +77,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getLabel(): string
     {
-        return urldecode(pathinfo(urldecode($this->NextcloudAsset->getPath()), PATHINFO_FILENAME));
+        return urldecode(pathinfo(urldecode($this->nextcloudAsset->getPath()), PATHINFO_FILENAME));
     }
 
     /**
@@ -85,7 +85,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getFilename(): string
     {
-        return $this->NextcloudAsset->getFileName();
+        return $this->nextcloudAsset->getFileName();
     }
 
     /**
@@ -93,7 +93,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getLastModified(): \DateTimeInterface
     {
-        return $this->NextcloudAsset->getLastModified();
+        return $this->nextcloudAsset->getLastModified();
     }
 
     /**
@@ -101,7 +101,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getFileSize(): int
     {
-        return $this->NextcloudAsset->getContentLength();
+        return $this->nextcloudAsset->getContentLength();
     }
 
     /**
@@ -109,7 +109,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getMediaType(): string
     {
-        return $this->NextcloudAsset->getContentType();
+        return $this->nextcloudAsset->getContentType();
     }
 
     /**
@@ -134,7 +134,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getThumbnailUri(): ?UriInterface
     {
-        return $this->assetSource->getThumbnailUrl($this->NextcloudAsset, 250, 250);
+        return $this->assetSource->getThumbnailUrl($this->nextcloudAsset, 250, 250);
     }
 
     /**
@@ -143,7 +143,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
      */
     public function getPreviewUri(): ?UriInterface
     {
-        return $this->assetSource->getThumbnailUrl($this->NextcloudAsset, 1000, 1000);
+        return $this->assetSource->getThumbnailUrl($this->nextcloudAsset, 1000, 1000);
     }
 
     /**
@@ -152,7 +152,7 @@ final class NextcloudAssetProxy implements AssetProxyInterface, HasRemoteOrigina
     public function getImportStream()
     {
         $stream = fopen('php://memory', 'r+');
-        fwrite($stream, $this->assetSource->getNextcloudClient()->webDav()->getFileContent($this->NextcloudAsset->getPath()));
+        fwrite($stream, $this->assetSource->getNextcloudClient()->webDav()->getFileContent($this->nextcloudAsset->getPath()));
         rewind($stream);
         return $stream;
     }

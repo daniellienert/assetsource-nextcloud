@@ -17,14 +17,15 @@ use DL\AssetSource\Nextcloud\Exception\NextcloudAssetSourceException;
 use DL\AssetSource\Nextcloud\NextcloudApi\NextcloudClient;
 use Neos\Flow\Core\Bootstrap;
 use Neos\Flow\Http\HttpRequestHandlerInterface;
-use Neos\Flow\Http\Uri;
 use Neos\Flow\Mvc\ActionRequest;
 use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
 use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Flow\ResourceManagement\ResourceManager;
+use Neos\Http\Factories\UriFactory;
 use Neos\Media\Domain\Model\AssetSource\AssetProxyRepositoryInterface;
 use Neos\Media\Domain\Model\AssetSource\AssetSourceInterface;
 use Neos\Media\Domain\Service\FileTypeIconService;
+use Psr\Http\Message\UriInterface;
 
 final class NextcloudAssetSource implements AssetSourceInterface
 {
@@ -57,7 +58,7 @@ final class NextcloudAssetSource implements AssetSourceInterface
     /**
      * @var NextcloudClient
      */
-    private $NextcloudClient;
+    private $nextcloudClient;
 
     /**
      * @Flow\Inject
@@ -78,6 +79,12 @@ final class NextcloudAssetSource implements AssetSourceInterface
     protected $uriBuilder;
 
     /**
+     * @Flow\Inject
+     * @var UriFactory
+     */
+    protected $uriFactory;
+
+    /**
      * @param string $assetSourceIdentifier
      * @param array $assetSourceOptions
      * @throws NextcloudAssetSourceException
@@ -94,7 +101,7 @@ final class NextcloudAssetSource implements AssetSourceInterface
             throw new NextcloudAssetSourceException('The given server configuration is not complete.');
         }
 
-        $this->NextcloudClient = new NextcloudClient($this->assetSourceOptions);
+        $this->nextcloudClient = new NextcloudClient($this->assetSourceOptions);
     }
 
     public function initializeObject()
@@ -145,7 +152,7 @@ final class NextcloudAssetSource implements AssetSourceInterface
      */
     public function getNextcloudClient(): NextcloudClient
     {
-        return $this->NextcloudClient;
+        return $this->nextcloudClient;
     }
 
     /**
@@ -174,12 +181,13 @@ final class NextcloudAssetSource implements AssetSourceInterface
      * @param int $height
      * @return Uri
      * @throws MissingActionNameException
+     * @throws \Neos\Flow\Http\Exception
      */
-    public function getThumbnailUrl(NextcloudAsset $NextcloudAsset, int $width, int $height): Uri
+    public function getThumbnailUrl(NextcloudAsset $NextcloudAsset, int $width, int $height): UriInterface
     {
-        if (!$this->NextcloudSupportsThumbnailGeneration($NextcloudAsset)) {
+        if (!$this->nextcloudSupportsThumbnailGeneration($NextcloudAsset)) {
             $icon = FileTypeIconService::getIcon($NextcloudAsset->getFileName());
-            return new Uri($this->resourceManager->getPublicPackageResourceUriByPath($icon['src']));
+            return $this->uriFactory->createUri($this->resourceManager->getPublicPackageResourceUriByPath($icon['src']));
         }
 
         $arguments = [
@@ -189,7 +197,7 @@ final class NextcloudAssetSource implements AssetSourceInterface
             'height' => $height
         ];
 
-        return new Uri($this->uriBuilder
+        return $this->uriFactory->createUri($this->uriBuilder
             ->reset()
             ->setCreateAbsoluteUri(true)
             ->uriFor('thumbnail', $arguments, 'Thumbnail', 'DL.AssetSource.Nextcloud')
@@ -200,7 +208,7 @@ final class NextcloudAssetSource implements AssetSourceInterface
      * @param NextcloudAsset $NextcloudAsset
      * @return bool
      */
-    private function NextcloudSupportsThumbnailGeneration(NextcloudAsset $NextcloudAsset): bool
+    private function nextcloudSupportsThumbnailGeneration(NextcloudAsset $NextcloudAsset): bool
     {
         $supportedTypes = $this->assetSourceOptions['enabledPreviewProviders'] ?? [];
         foreach ($supportedTypes as $NextcloudProvider => $mimeTypeRegex) {
