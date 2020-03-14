@@ -18,6 +18,7 @@ use DL\AssetSource\Nextcloud\NextcloudApi\NextcloudClient;
 use Neos\Flow\Core\Bootstrap;
 use Neos\Flow\Http\HttpRequestHandlerInterface;
 use Neos\Flow\Mvc\ActionRequest;
+use Neos\Flow\Mvc\ActionRequestFactory;
 use Neos\Flow\Mvc\Routing\Exception\MissingActionNameException;
 use Neos\Flow\Mvc\Routing\UriBuilder;
 use Neos\Flow\ResourceManagement\ResourceManager;
@@ -85,6 +86,13 @@ final class NextcloudAssetSource implements AssetSourceInterface
     protected $uriFactory;
 
     /**
+     * @Flow\Inject
+     * @var ActionRequestFactory
+     */
+    protected $actionRequestFactory;
+
+
+    /**
      * @param string $assetSourceIdentifier
      * @param array $assetSourceOptions
      * @throws NextcloudAssetSourceException
@@ -104,7 +112,7 @@ final class NextcloudAssetSource implements AssetSourceInterface
         $this->nextcloudClient = new NextcloudClient($this->assetSourceOptions);
     }
 
-    public function initializeObject()
+    public function initializeObject(): void
     {
         $this->uriBuilder->setRequest($this->createActionRequest());
     }
@@ -221,12 +229,16 @@ final class NextcloudAssetSource implements AssetSourceInterface
 
     /**
      * @return ActionRequest|null
+     * @throws \Neos\Flow\Mvc\Exception\InvalidActionNameException
+     * @throws \Neos\Flow\Mvc\Exception\InvalidArgumentNameException
+     * @throws \Neos\Flow\Mvc\Exception\InvalidArgumentTypeException
+     * @throws \Neos\Flow\Mvc\Exception\InvalidControllerNameException
      */
     private function createActionRequest(): ?ActionRequest
     {
         $requestHandler = $this->bootstrap->getActiveRequestHandler();
         if ($requestHandler instanceof HttpRequestHandlerInterface) {
-            return new ActionRequest($requestHandler->getHttpRequest());
+            return $this->actionRequestFactory->createActionRequest($requestHandler->getComponentContext()->getHttpRequest());
         }
         return null;
     }
