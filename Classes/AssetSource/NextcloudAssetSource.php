@@ -242,4 +242,23 @@ final class NextcloudAssetSource implements AssetSourceInterface
         }
         return null;
     }
+
+
+    /**
+     * Returns the resource path to Assetsources icon
+     *
+     * @return string
+     */
+    public function getIconUri(): string
+    {
+        return $this->resourceManager->getPublicPackageResourceUriByPath($this->assetSourceOptions['icon']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return sprintf('Nextcloud asset source. Connected to %s', $this->assetSourceOptions['server']['baseUri']);
+    }
 }

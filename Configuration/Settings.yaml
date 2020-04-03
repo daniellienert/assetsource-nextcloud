@@ -5,6 +5,7 @@ Neos:
         assetSource: 'DL\AssetSource\Nextcloud\AssetSource\NextcloudAssetSource'
         assetSourceOptions:
           label: Nextcloud
+          icon: 'resource://DL.AssetSource.Nextcloud/Public/Nextcloud_Logo_White.svg'
 
           server:
             baseUri: 'https://owncloud.lienert.cc'
@@ -37,10 +38,10 @@ Neos:
 #            'OC\Preview\Photoshop': '/application\/x-photoshop/'
 #
 #            'OC\Preview\Movie': '/video\/.*/'
-         
+
 #            'OC\Preview\MSOffice2003': '/application\/vnd.ms-.*/'
 #            'OC\Preview\MSOffice2007':  '/application\/vnd.openxmlformats-officedocument.*/'
-            
+
 
   Flow:
     mvc:
