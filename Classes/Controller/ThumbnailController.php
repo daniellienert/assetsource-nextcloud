@@ -32,11 +32,10 @@ class ThumbnailController extends ActionController
      * @param int $width
      * @param int $height
      * @return string
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function thumbnailAction(string $assetSourceIdentifier, int $fileId, int $width, int $height): string
     {
-        $this->response->setHeader('Content-type', 'image/jpg');
+        $this->response->setContentType('image/jpg');
         return $this->getCoreApi($assetSourceIdentifier)->getPreview($fileId, $width, $height);
     }
 
