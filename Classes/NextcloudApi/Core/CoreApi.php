@@ -13,11 +13,9 @@ namespace DL\AssetSource\Nextcloud\NextcloudApi\Core;
 
 use Neos\Flow\Annotations as Flow;
 use GuzzleHttp\Client;
-use Neos\Flow\Log\PsrSystemLoggerInterface;
 use Neos\Flow\ResourceManagement\ResourceManager;
-use Neos\Media\Domain\Service\FileTypeIconService;
 use Neos\Utility\Files;
-use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 class CoreApi
 {
@@ -28,7 +26,7 @@ class CoreApi
 
     /**
      * @Flow\Inject
-     * @var PsrSystemLoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 

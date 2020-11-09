@@ -13,8 +13,8 @@ namespace DL\AssetSource\Nextcloud\NextcloudApi\Modules;
 
 use Neos\Flow\Annotations as Flow;
 use GuzzleHttp\Client;
-use Neos\Flow\Log\PsrSystemLoggerInterface;
 use Neos\Utility\Files;
+use Psr\Log\LoggerInterface;
 
 class Gallery
 {
@@ -25,7 +25,7 @@ class Gallery
 
     /**
      * @Flow\Inject
-     * @var PsrSystemLoggerInterface
+     * @var LoggerInterface
      */
     protected $logger;
 
