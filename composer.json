@@ -9,7 +9,7 @@
         "nextcloud"
     ],
     "require": {
-        "neos/neos": "^5.0",
+        "neos/neos": "^5.0 || ^7.0",
         "sabre/dav": "^3.2",
         "guzzlehttp/guzzle": "^6.3"
     },
